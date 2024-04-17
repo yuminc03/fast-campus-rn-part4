@@ -1,118 +1,67 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { SafeAreaView, Text, View, Pressable } from 'react-native';
+import Animated, { Extrapolation, interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+const App = () => {
+  const value = useSharedValue(0);
+  const onScroll = useAnimatedScrollHandler(event => {
+    value.value = event.contentOffset.y;
+  });
+  const floatingButtonStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateY: interpolate(value.value, [50, 100], [50, -100], {
+          extrapolateRight: Extrapolation.CLAMP,
+        })},
+      ],
+    };
+  });
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+    <SafeAreaView style={{ flex: 1 }}>
+      <Animated.FlatList
+        style={{ flex: 1 }}
+        data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+        onScroll={onScroll}
+        renderItem={({ item }) => {
+          return (
+            <View
+              style={{
+                height: 150,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Text>{item}</Text>
+            </View>
+          );
+        }}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+      <Pressable
+        style={{
+          position: 'absolute',
+          right: 24,
+          bottom: 24,
+        }}
+      >
+        <Animated.View
+          style={[
+            {
+              width: 50,
+              height: 50,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 25,
+              backgroundColor: 'red',
+            },
+            floatingButtonStyle,
+          ]}
+        >
+          <Text style={{ color: 'white', fontSize: 24 }}>+</Text>
+        </Animated.View>
+      </Pressable>
     </SafeAreaView>
   );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+};
 
 export default App;
