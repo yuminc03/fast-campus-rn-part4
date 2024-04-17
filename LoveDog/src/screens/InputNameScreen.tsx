@@ -4,14 +4,19 @@ import { Header } from "../components/Header/Header";
 import { Button } from "../components/Button";
 import { Typography } from "../components/Typography";
 import { useRootNavigation } from "../navigation/RootStackNavigation";
+import { useSignupNavigation } from "../navigation/SignupNavigation";
 
 export const InputNameScreen: React.FC = () => {
   const rootNavigation = useRootNavigation<'Signup'>();
+  const navigation = useSignupNavigation<'InputName'>();
 
   return (
     <View style={{ flex: 1 }}>
       <Header>
-        <Header.Title title="InputNameScreen"/>
+        <Header.Group>
+          <Header.Title title="InputNameScreen"/>
+        </Header.Group>
+        <Header.Icon iconName="arrow-back" onPress={navigation.goBack}/>
       </Header>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Button onPress={() => {

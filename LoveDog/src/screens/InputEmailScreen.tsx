@@ -12,7 +12,10 @@ export const InputEmailScreen: React.FC = () => {
   return (
     <View style={{ flex: 1 }}>
       <Header>
-        <Header.Title title="InputEmailScreen"/>
+        <Header.Group>
+          <Header.Title title="InputEmailScreen"/>
+        </Header.Group>
+        <Header.Icon iconName="close" onPress={navigation.goBack}/>
       </Header>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Button onPress={() => {
