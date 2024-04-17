@@ -21,9 +21,9 @@ export const InputEmailScreen: React.FC = () => {
               preInput: routes.params.preInput,
               inputEmail: '',
             });
-          }}>
-            <Typography fontSize={16}>회원가입 화면으로 이동하기</Typography>
-          </Button>
+        }}>
+          <Typography fontSize={16}>회원가입 화면으로 이동하기</Typography>
+        </Button>
       </View>
     </View>
   );
