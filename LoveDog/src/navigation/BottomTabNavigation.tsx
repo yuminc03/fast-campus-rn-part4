@@ -4,6 +4,7 @@ import React from "react";
 import { MainSceen } from "../screens/MainScreen";
 import { MyScreen } from "../screens/MyScreen";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { TabIcon } from "../components/TabIcon";
 
 export type TypeBottomTabNavigation = {
   Main: undefined;
@@ -14,7 +15,31 @@ const BottomTab = createBottomTabNavigator<TypeBottomTabNavigation>();
 
 export const BottomTabNavigation: React.FC = () => {
   return (
-    <BottomTab.Navigator screenOptions={{ headerShown: false }}>
+    <BottomTab.Navigator
+      screenOptions={({ route }) => {
+        const getIconName = (): string => {
+          if (route.name === 'My') {
+            return 'person';
+          }
+
+          return 'home';
+        };
+        const routeIconName = getIconName();
+
+        return {
+          headerShown: false,
+          tabBarIcon: ({ color }) => {
+            return (
+              <TabIcon
+                visibleBadge={false}
+                iconName={routeIconName}
+                iconColor={color}
+              />
+            );
+          }
+        };
+      }}
+    >
       <BottomTab.Screen name="Main" component={MainSceen}/>
       <BottomTab.Screen name="My" component={MyScreen}/>
     </BottomTab.Navigator>
