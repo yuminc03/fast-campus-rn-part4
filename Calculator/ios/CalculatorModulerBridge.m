@@ -12,7 +12,7 @@
 RCT_EXTERN_METHOD(executeCalc: (NSString *) action
                   numberA: (int) numberA
                   numberB: (int) numberB
-                  resoler: (RCTPromiseResolveBlock) resolve
+                  resolver: (RCTPromiseResolveBlock) resolve
                   rejector: (RCTPromiseRejectBlock) reject
                   )
 

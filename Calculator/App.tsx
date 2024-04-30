@@ -1,18 +1,32 @@
-import React, { useCallback, useState } from 'react';
-import { Pressable, SafeAreaView, View, useColorScheme, useWindowDimensions, Text, NativeModules } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import React, {useCallback, useState} from 'react';
+import {
+  Pressable,
+  SafeAreaView,
+  View,
+  useWindowDimensions,
+  Text,
+} from 'react-native';
+
+import {executeCalculator} from './NativeCalculatorUtils';
+
+export type TypeCalcAction =
+  | 'plus'
+  | 'minus'
+  | 'multiply'
+  | 'divide'
+  | 'equal'
+  | 'clear';
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
   const screenSize = useWindowDimensions();
   const buttonSize = screenSize.width / 4;
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
   const [resultNum, setResultNum] = useState('');
   const [inputNum, setInputNum] = useState('');
   const [tempNum, setTempNum] = useState(0);
-  const [lastAction, setLastAction] = useState<string | null>(null);
+  const [lastAction, setLastAction] = useState<Exclude<
+    TypeCalcAction,
+    'equal' | 'clear'
+  > | null>(null);
 
   const onPressNumber = useCallback<(pressed: number) => void>(
     pressed => {
@@ -28,7 +42,7 @@ const App = () => {
     },
     [resultNum],
   );
-  const onPressAction = useCallback<(pressed: number) => Promise<void>>(
+  const onPressAction = useCallback<(action: TypeCalcAction) => Promise<void>>(
     async pressed => {
       if (pressed === 'clear') {
         setInputNum('');
@@ -40,12 +54,11 @@ const App = () => {
       if (pressed === 'equal') {
         if (tempNum !== 0 && lastAction !== null) {
           console.log(lastAction);
-          const result = await NativeModules.CalculatorModule.executeCalc(
+          const result = await executeCalculator(
             lastAction,
             tempNum,
             parseInt(inputNum),
           );
-
           console.log(result);
           setResultNum(result.toString());
           setTempNum(0);
@@ -63,7 +76,7 @@ const App = () => {
         setTempNum(parseInt(inputNum));
         setInputNum('');
       } else {
-        const result = await NativeModules.CalculatorModule.executeCalc(
+        const result = await executeCalculator(
           pressed,
           tempNum,
           parseInt(inputNum),
@@ -130,7 +143,9 @@ const App = () => {
                     justifyContent: 'center',
                     backgroundColor: 'lightgray',
                   }}
-                  onPress={() => onPressAction(action.action)}>
+                  onPress={() =>
+                    onPressAction(action.action as TypeCalcAction)
+                  }>
                   <Text style={{fontSize: 24}}>{action.label}</Text>
                 </Pressable>
               );
