@@ -37,4 +37,4 @@ export const SingleLineInput: React.FC<{
       />
     </View>
   );
-}
+};
