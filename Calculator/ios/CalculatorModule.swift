@@ -10,8 +10,8 @@ import Foundation
 @objc(CalculatorModule)
 class CalculatorModule: NSObject {
   
-  @objc(executeCale:numberA:numberB:resolver:rejector:)
-  public func executeCale(
+  @objc(executeCalc:numberA:numberB:resolver:rejector:)
+  public func executeCalc(
     _ action: String,
     numberA: Int,
     numberB: Int, 
