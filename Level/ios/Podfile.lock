@@ -1163,6 +1163,29 @@ PODS:
     - React-logger (= 0.74.0)
     - React-perflogger (= 0.74.0)
     - React-utils (= 0.74.0)
+  - RNReanimated (3.9.0):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Codegen
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
+  - RNSensors (7.3.6):
+    - React-Core
   - SocketRocket (0.7.0)
   - Yoga (0.0.0)
 
@@ -1222,6 +1245,8 @@ DEPENDENCIES:
   - React-runtimescheduler (from `../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler`)
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
+  - RNSensors (from `../node_modules/react-native-sensors`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1336,6 +1361,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/utils"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
+  RNSensors:
+    :path: "../node_modules/react-native-sensors"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -1393,9 +1422,11 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 7fe561d179b97cecd0c2bec0bbd08f9fd8581c26
   React-utils: f013537c3371270d2095bff1d594d00d4bc9261b
   ReactCommon: 2cde697fd80bd31da1d6448d25a5803088585219
+  RNReanimated: 5fe9e4e22610ec906856da8dde7ea6815dd0cee2
+  RNSensors: 117ba71c7eeeea0407ea0c0bb79e3495d602049b
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: ff1d575b119f510a5de23c22a794872562078ccf
 
-PODFILE CHECKSUM: 045b1c2a22a78cf82b815999408dd148fa79e629
+PODFILE CHECKSUM: a37eba5dae1eaf246c97330839f561cf35276d43
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.13.0
