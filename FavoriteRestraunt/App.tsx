@@ -1,13 +1,15 @@
 import React from 'react';
-import {SafeAreaView, View} from 'react-native';
-import {Icon} from './src/components/Icons';
+import {SafeAreaView} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+
+import {RootNavigation} from './src/navigation/RootNavigation';
 
 export const App = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View>
-        <Icon name="arrow-back" size={24} color="blue" />
-      </View>
+      <NavigationContainer>
+        <RootNavigation />
+      </NavigationContainer>
     </SafeAreaView>
   );
 };
