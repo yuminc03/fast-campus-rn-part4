@@ -1,6 +1,7 @@
 import React, {useCallback} from 'react';
 import {View} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
+import KakaoShareLink, { KakaoShareLinkType } from 'react-native-kakao-share-link';
 
 import {Header} from '../components/Header/Header';
 import {Typography} from '../components/Typography';
@@ -13,8 +14,20 @@ export const DetailScreen: React.FC = () => {
   const routes = useRootRoute<'Detail'>();
 
   const onPressKakaoShare = useCallback(() => {
-
-  }, []);
+    KakaoShareLink.sendLocation({
+      address: routes.params.address,
+      addressTitle: routes.params.title,
+      content: {
+        title: routes.params.title,
+        imageUrl:
+          'http://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg',
+        link: {
+          mobileWebUrl: 'https://developers.kakao.com/',
+        },
+        description: '이곳은 어떤가요?',
+      },
+    });
+  }, [routes.params.address, routes.params.title]);
 
   const onPressBack = useCallback(() => {
     navigation.goBack();
