@@ -6,14 +6,38 @@ import {Header} from '../components/Header/Header';
 import {Typography} from '../components/Typography';
 import {Spacer} from '../components/Spacer';
 import {SingleLineInput} from '../components/SingleLineInput';
-import {useRootRoute} from '../navigation/RootNavigation';
+import {useRootNavigation, useRootRoute} from '../navigation/RootNavigation';
 import {Button} from '../components/Button';
+import {saveNewRestraunt} from '../utils/RealTimeDataBaseUtils';
 
 export const AddScreen: React.FC = () => {
+  const navigation = useRootNavigation<'Add'>();
   const routes = useRootRoute<'Add'>();
   const [title, setTitle] = useState('');
-  const onPressBack = useCallback(() => {}, []);
-  const onPressSave = useCallback(() => {}, []);
+
+  const onPressBack = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
+
+  const onPressSave = useCallback(async () => {
+    if (title === '') return;
+
+    await saveNewRestraunt({
+      title: title,
+      latitude: routes.params.latitude,
+      longitude: routes.params.longitude,
+      address: routes.params.address,
+    });
+
+    navigation.goBack();
+  }, [
+    navigation,
+    routes.params.address,
+    routes.params.latitude,
+    routes.params.longitude,
+    title,
+  ]);
+
   return (
     <View style={{flex: 1}}>
       <Header>
