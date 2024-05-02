@@ -17,6 +17,10 @@ if linkage != nil
 end
 
 target 'FavoriteRestraunt' do
+
+  use_frameworks! :linkage => :static
+  $RNFirebaseAsStaticFramework = true
+
   # React Native Maps dependencies
   rn_maps_path = '../node_modules/react-native-maps'
   pod 'react-native-google-maps', :path => rn_maps_path

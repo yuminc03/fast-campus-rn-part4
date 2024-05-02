@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "984500847791",
+    "project_id": "favoriterestraunt-67534",
+    "storage_bucket": "favoriterestraunt-67534.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:984500847791:android:b3ac3eb4fcd3045990405a",
+        "android_client_info": {
+          "package_name": "com.favoriterestraunt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-ZIt8mHCNYzN43Ums2VT1nvQQhg4cGlY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
