@@ -18,3 +18,12 @@ export const saveNewRestraunt = async (params: {
     ...saveItem,
   });
 };
+
+export const getRestrauntList = async (): Promise<
+  {title: string; address: string; latitude: number; longitude: number}[]
+> => {
+  const db = database().ref('/restraunt');
+  const snapshotValue = await db.once('value').then(snapshot => snapshot.val());
+
+  return Object.keys(snapshotValue).map(key => snapshotValue[key]);
+};

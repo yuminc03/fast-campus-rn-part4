@@ -10,10 +10,15 @@ import {
 } from '../utils/GeoUtils';
 import {SingleLineInput} from '../components/SingleLineInput';
 import {useRootNavigation} from '../navigation/RootNavigation';
+import {getRestrauntList} from '../utils/RealTimeDataBaseUtils';
 
 export const MainScreen: React.FC = () => {
   const navigation = useRootNavigation<'Main'>();
   const [query, setQuery] = useState<string>('');
+  const [isMapReady, setIsMapReady] = useState<boolean>(false);
+  const [markerList, setMarkerList] = useState<
+    {latitude: number; longitude: number; title: string; address: string}[]
+  >([]);
   const [currentRegion, setCrurentRegion] = useState<{
     latitude: number;
     longitude: number;
@@ -86,6 +91,12 @@ export const MainScreen: React.FC = () => {
     navigation,
   ]);
 
+  const onMapReady = useCallback(async () => {
+    setIsMapReady(true);
+    const restrantList = await getRestrauntList();
+    setMarkerList(restrantList);
+  }, []);
+
   useEffect(() => {
     getMyLocation();
   }, [getMyLocation]);
@@ -100,15 +111,33 @@ export const MainScreen: React.FC = () => {
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}
+        onMapReady={onMapReady}
         onLongPress={event => {
           onChangeLocation(event.nativeEvent.coordinate);
         }}>
-        <Marker
-          coordinate={{
-            latitude: currentRegion.latitude,
-            longitude: currentRegion.longitude,
-          }}
-        />
+        {isMapReady && (
+          <Marker
+            coordinate={{
+              latitude: currentRegion.latitude,
+              longitude: currentRegion.longitude,
+            }}
+          />
+        )}
+
+        {isMapReady &&
+          markerList.map(item => {
+            return (
+              <Marker
+                title={item.title}
+                description={item.address}
+                coordinate={{
+                  latitude: item.latitude,
+                  longitude: item.longitude,
+                }}
+                pinColor="skyblue"
+              />
+            );
+          })}
       </MapView>
 
       <View style={{position: 'absolute', top: 24, left: 24, right: 24}}>
