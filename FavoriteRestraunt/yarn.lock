@@ -1706,6 +1706,11 @@
   resolved "https://registry.npmjs.org/@react-native-firebase/database/-/database-19.2.2.tgz"
   integrity sha512-ZLFN34Uqtdnv7YJe9pgm6teo7wzN3gHdNz1SHRzPn8wvHj375yf7ej2jTXsIw7FQhjs1RvdQZpQYiidAfLR/wA==
 
+"@react-native-firebase/dynamic-links@^19.2.2":
+  version "19.2.2"
+  resolved "https://registry.npmjs.org/@react-native-firebase/dynamic-links/-/dynamic-links-19.2.2.tgz"
+  integrity sha512-nZxUuKG8hX0f3iiHobVYn2gDlVw7eb9YU+xD0ybvKGsG00lT7g43pkDhyb4hBg8QVtRgbO/28x0vxF1CZ7jhEw==
+
 "@react-native/assets-registry@0.74.81":
   version "0.74.81"
   resolved "https://registry.npmjs.org/@react-native/assets-registry/-/assets-registry-0.74.81.tgz"
