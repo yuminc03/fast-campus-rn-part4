@@ -1,6 +1,7 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import {View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import ImagePicker from 'react-native-image-crop-picker';
 
 import {Header} from '../components/Header/Header';
 import {Button} from '../components/Button';
@@ -20,16 +21,25 @@ export const InputNameScreen: React.FC = () => {
   const navigation = useSignupNavigation<'InputName'>();
   const routes = useSignupRoute<'InputName'>();
   const safeArea = useSafeAreaInsets();
-  const [profileImage, setProfileImage] = useState(
-    routes.params.preInput.profileImage,
+
+  const [selectedPhoto, setSelectedPhoto] = useState<{uri: string} | null>(
+    null,
   );
+  const [profileImage] = useState(routes.params.preInput.profileImage);
   const [inputName, setInputName] = useState(routes.params.preInput.name);
 
   const isValid = useMemo(() => {
     return true;
   }, []);
 
-  const onPressProfileImage = useCallback(() => {}, []);
+  const onPressProfileImage = useCallback(async () => {
+    const photoResult = await ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    });
+    setSelectedPhoto({uri: photoResult.path});
+  }, []);
 
   const onPressSubmit = useCallback(() => {
     rootNavigation.replace('Main');
@@ -58,7 +68,9 @@ export const InputNameScreen: React.FC = () => {
                 <RemoteImage
                   width={100}
                   height={100}
-                  url={profileImage}
+                  url={
+                    selectedPhoto !== null ? selectedPhoto.uri : profileImage
+                  }
                   style={{borderRadius: 50}}
                 />
                 <View style={{position: 'absolute', right: 0, bottom: 0}}>
