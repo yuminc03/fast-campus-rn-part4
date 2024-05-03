@@ -14,12 +14,14 @@ import {IntroSceen} from '../screens/IntroScreen';
 import {SignupNavigation, TypeSignupNavigation} from './SignupNavigation';
 import {BottomTabNavigation} from './BottomTabNavigation';
 import {HistoryListScreen} from '../screens/HistoryListScreen';
+import {TakePhotoScreen} from '../screens/TakePhotoScreen';
 
 export type TypeRootStackNavigationParams = {
   Intro: undefined;
   Signup: NavigatorScreenParams<TypeSignupNavigation>;
   Main: undefined;
   HistoryList: undefined;
+  TakePhoto: {onTakePhoto: (uri: string) => void};
 };
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +32,7 @@ export const RootStackNavigation: React.FC = () => {
       <Stack.Screen name="Signup" component={SignupNavigation} />
       <Stack.Screen name="Main" component={BottomTabNavigation} />
       <Stack.Screen name="HistoryList" component={HistoryListScreen} />
+      <Stack.Screen name="TakePhoto" component={TakePhotoScreen} />
     </Stack.Navigator>
   );
 };
