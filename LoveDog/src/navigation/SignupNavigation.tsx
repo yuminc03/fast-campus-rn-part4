@@ -14,7 +14,7 @@ export type TypeSignupNavigation = {
     preInput: {
       email: string;
       name: string;
-      profileName: string;
+      profileImage: string;
     };
   };
   InputName: {
@@ -22,7 +22,7 @@ export type TypeSignupNavigation = {
     preInput: {
       email: string;
       name: string;
-      profileName: string;
+      profileImage: string;
     };
     inputEmail: string;
   };
