@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text as RNText } from 'react-native';
+import {Text as RNText} from 'react-native';
 
 // export class Typography extends React.Component{
 //     render(){

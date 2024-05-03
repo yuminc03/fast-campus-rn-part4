@@ -1,6 +1,6 @@
 import React from 'react';
-import { Badge } from './Bedge';
-import { Icon, TypeIconName } from './Icons';
+import {Badge} from './Bedge';
+import {Icon, TypeIconName} from './Icons';
 
 // export class TabIcon extends React.Component{
 

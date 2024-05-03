@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from '../Typography';
+import {Typography} from '../Typography';
 
 export const HeaderTitle: React.FC<{
   title: string;

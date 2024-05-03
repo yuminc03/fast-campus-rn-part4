@@ -1,6 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Typography } from './Typography';
+import {View} from 'react-native';
+import {Typography} from './Typography';
 
 // export class Badge extends React.Component {
 //     render(){
