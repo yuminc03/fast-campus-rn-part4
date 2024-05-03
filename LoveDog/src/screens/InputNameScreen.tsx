@@ -16,6 +16,7 @@ import {
   useSignupNavigation,
   useSignupRoute,
 } from '../navigation/SignupNavigation';
+import { uploadFile } from '../utils/FileUtils';
 
 export const InputNameScreen: React.FC = () => {
   const rootNavigation = useRootNavigation<'Signup'>();
@@ -38,9 +39,16 @@ export const InputNameScreen: React.FC = () => {
     actionSheetRef.current?.show();
   }, []);
 
-  const onPressSubmit = useCallback(() => {
-    rootNavigation.replace('Main');
-  }, [rootNavigation]);
+  const onPressSubmit = useCallback(async () => {
+    const getPhotoUrl = async () => {
+      if (selectedPhoto) {
+        return await uploadFile(selectedPhoto.uri);
+      }
+
+      return profileImage;
+    };
+    const photoUrl = await getPhotoUrl();
+  }, [profileImage, selectedPhoto]);
 
   return (
     <View style={{flex: 1}}>
