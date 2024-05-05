@@ -1,8 +1,9 @@
 import React, {useCallback, useMemo, useRef, useState} from 'react';
-import {View} from 'react-native';
+import {ActivityIndicator, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import ImagePicker from 'react-native-image-crop-picker';
 import ActionSheet from 'react-native-actionsheet';
+import database from '@react-native-firebase/database';
 
 import {Header} from '../components/Header/Header';
 import {Button} from '../components/Button';
@@ -16,7 +17,7 @@ import {
   useSignupNavigation,
   useSignupRoute,
 } from '../navigation/SignupNavigation';
-import { uploadFile } from '../utils/FileUtils';
+import {uploadFile} from '../utils/FileUtils';
 
 export const InputNameScreen: React.FC = () => {
   const rootNavigation = useRootNavigation<'Signup'>();
@@ -25,6 +26,7 @@ export const InputNameScreen: React.FC = () => {
   const safeArea = useSafeAreaInsets();
   const actionSheetRef = useRef<ActionSheet>(null);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState<{uri: string} | null>(
     null,
   );
@@ -47,16 +49,37 @@ export const InputNameScreen: React.FC = () => {
 
       return profileImage;
     };
+    setIsLoading(true);
     const photoUrl = await getPhotoUrl();
-  }, [profileImage, selectedPhoto]);
+    const currentTime = new Date();
+    const referenece = database().ref(`member/${routes.params.uid}`);
+    await referenece.set({
+      name: inputName,
+      email: routes.params.inputEmail,
+      profile: photoUrl,
+      regeditAt: currentTime.toISOString(),
+      lastLoginAt: currentTime.toISOString(),
+    });
+    rootNavigation.reset({
+      routes: [{name: 'Main'}],
+    });
+    setIsLoading(false);
+  }, [
+    inputName,
+    profileImage,
+    rootNavigation,
+    routes.params.inputEmail,
+    routes.params.uid,
+    selectedPhoto,
+  ]);
 
   return (
     <View style={{flex: 1}}>
       <Header>
         <Header.Group>
+          <Header.Icon iconName="arrow-back" onPress={navigation.goBack} />
           <Header.Title title="InputNameScreen" />
         </Header.Group>
-        <Header.Icon iconName="arrow-back" onPress={navigation.goBack} />
       </Header>
 
       <View
@@ -120,9 +143,13 @@ export const InputNameScreen: React.FC = () => {
         <View style={{backgroundColor: isValid ? 'black' : 'lightgray'}}>
           <Spacer space={16} />
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <Typography fontSize={20} color="white">
-              회원가입
-            </Typography>
+            {isLoading ? (
+              <ActivityIndicator size={20} color={'white'} />
+            ) : (
+              <Typography fontSize={20} color="white">
+                회원가입
+              </Typography>
+            )}
           </View>
           <Spacer space={safeArea.bottom + 12} />
         </View>

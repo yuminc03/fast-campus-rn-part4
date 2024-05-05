@@ -1,20 +1,44 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View} from 'react-native';
 import auth from '@react-native-firebase/auth';
-
-import {Header} from '../components/Header/Header';
-import {Button} from '../components/Button';
-import {Typography} from '../components/Typography';
-import {useRootNavigation} from '../navigation/RootStackNavigation';
 import {
   GoogleSignin,
   GoogleSigninButton,
 } from '@react-native-google-signin/google-signin';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import database from '@react-native-firebase/database';
 
-export const IntroSceen: React.FC = () => {
+import {Header} from '../components/Header/Header';
+import {useRootNavigation} from '../navigation/RootStackNavigation';
+
+export const IntroScreen: React.FC = () => {
   const rootNavigation = useRootNavigation<'Intro'>();
   const safeArea = useSafeAreaInsets();
+  const [visibleGoogleSigninBtn, setVisibleGoogleSigninBtn] = useState(true);
+  const checkUserLoginOnce = useCallback(async () => {
+    const isSignin = await GoogleSignin.isSignedIn();
+
+    if (!isSignin) {
+      setVisibleGoogleSigninBtn(true);
+      return;
+    }
+
+    setVisibleGoogleSigninBtn(false);
+
+    const result = await GoogleSignin.signInSilently();
+    const googleCredential = auth.GoogleAuthProvider.credential(result.idToken);
+    const authResult = await auth().signInWithCredential(googleCredential);
+    const uid = authResult.user.uid;
+
+    const currentTime = new Date();
+    const referenece = database().ref(`member/${uid}`);
+    await referenece.update({
+      lastLoginAt: currentTime.toISOString(),
+    });
+    rootNavigation.reset({
+      routes: [{name: 'Main'}],
+    });
+  }, [rootNavigation]);
 
   const onPressGoogleSignin = useCallback(async () => {
     const isSignIn = await GoogleSignin.isSignedIn();
@@ -39,6 +63,10 @@ export const IntroSceen: React.FC = () => {
     });
   }, [rootNavigation]);
 
+  useEffect(() => {
+    checkUserLoginOnce();
+  }, [checkUserLoginOnce]);
+
   return (
     <View style={{flex: 1}}>
       <Header>
@@ -51,7 +79,9 @@ export const IntroSceen: React.FC = () => {
           justifyContent: 'center',
           paddingBottom: 32 + safeArea.bottom,
         }}>
-        <GoogleSigninButton onPress={onPressGoogleSignin} />
+        {visibleGoogleSigninBtn && (
+          <GoogleSigninButton onPress={onPressGoogleSignin} />
+        )}
       </View>
     </View>
   );
