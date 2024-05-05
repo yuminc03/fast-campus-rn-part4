@@ -5,7 +5,7 @@ import {
 } from '@react-navigation/bottom-tabs';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 
-import {MainSceen} from '../screens/MainScreen';
+import {MainScreen} from '../screens/MainScreen';
 import {MyScreen} from '../screens/MyScreen';
 import {TabIcon} from '../components/TabIcon';
 
@@ -42,7 +42,7 @@ export const BottomTabNavigation: React.FC = () => {
           },
         };
       }}>
-      <BottomTab.Screen name="Main" component={MainSceen} />
+      <BottomTab.Screen name="Main" component={MainScreen} />
       <BottomTab.Screen name="My" component={MyScreen} />
     </BottomTab.Navigator>
   );
