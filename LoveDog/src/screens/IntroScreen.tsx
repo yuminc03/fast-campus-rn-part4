@@ -10,9 +10,12 @@ import database from '@react-native-firebase/database';
 
 import {Header} from '../components/Header/Header';
 import {useRootNavigation} from '../navigation/RootStackNavigation';
+import {useDispatch} from 'react-redux';
+import {setUser} from '../actions/user';
 
 export const IntroScreen: React.FC = () => {
   const rootNavigation = useRootNavigation<'Intro'>();
+  const dispatch = useDispatch();
   const safeArea = useSafeAreaInsets();
   const [visibleGoogleSigninBtn, setVisibleGoogleSigninBtn] = useState(true);
   const checkUserLoginOnce = useCallback(async () => {
@@ -31,14 +34,28 @@ export const IntroScreen: React.FC = () => {
     const uid = authResult.user.uid;
 
     const currentTime = new Date();
-    const referenece = database().ref(`member/${uid}`);
-    await referenece.update({
+    const reference = database().ref(`member/${uid}`);
+    await reference.update({
       lastLoginAt: currentTime.toISOString(),
     });
+
+    // 자동 로그인 하는 경우
+    const userInfo = await reference
+      .once('value')
+      .then(snapshot => snapshot.val());
+    dispatch(
+      setUser({
+        uid: uid,
+        userEmail: userInfo.email,
+        userName: userInfo.name,
+        profileImage: userInfo.profile,
+      }),
+    );
+
     rootNavigation.reset({
       routes: [{name: 'Main'}],
     });
-  }, [rootNavigation]);
+  }, [dispatch, rootNavigation]);
 
   const onPressGoogleSignin = useCallback(async () => {
     const isSignIn = await GoogleSignin.isSignedIn();

@@ -4,6 +4,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import ImagePicker from 'react-native-image-crop-picker';
 import ActionSheet from 'react-native-actionsheet';
 import database from '@react-native-firebase/database';
+import {useDispatch} from 'react-redux';
 
 import {Header} from '../components/Header/Header';
 import {Button} from '../components/Button';
@@ -18,6 +19,7 @@ import {
   useSignupRoute,
 } from '../navigation/SignupNavigation';
 import {uploadFile} from '../utils/FileUtils';
+import {setUser} from '../actions/user';
 
 export const InputNameScreen: React.FC = () => {
   const rootNavigation = useRootNavigation<'Signup'>();
@@ -25,6 +27,7 @@ export const InputNameScreen: React.FC = () => {
   const routes = useSignupRoute<'InputName'>();
   const safeArea = useSafeAreaInsets();
   const actionSheetRef = useRef<ActionSheet>(null);
+  const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState<{uri: string} | null>(
@@ -52,19 +55,31 @@ export const InputNameScreen: React.FC = () => {
     setIsLoading(true);
     const photoUrl = await getPhotoUrl();
     const currentTime = new Date();
-    const referenece = database().ref(`member/${routes.params.uid}`);
-    await referenece.set({
+    const reference = database().ref(`member/${routes.params.uid}`);
+    await reference.set({
       name: inputName,
       email: routes.params.inputEmail,
       profile: photoUrl,
       regeditAt: currentTime.toISOString(),
       lastLoginAt: currentTime.toISOString(),
     });
+    const userInfo = await reference
+      .once('value')
+      .then(snapshot => snapshot.val());
+    dispatch(
+      setUser({
+        uid: routes.params.uid,
+        userEmail: userInfo.email,
+        userName: userInfo.name,
+        profileImage: userInfo.profile,
+      }),
+    );
     rootNavigation.reset({
       routes: [{name: 'Main'}],
     });
     setIsLoading(false);
   }, [
+    dispatch,
     inputName,
     profileImage,
     rootNavigation,

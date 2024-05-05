@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {Header} from '../components/Header/Header';
 import {TypeRootReducer} from '../store';
-import {TypeDogDispatch, getDog} from '../actions/dog';
+import {TypeDogDispatch, getDog, likeDog} from '../actions/dog';
 import {TypeDog} from '../data/TypeDog';
 import {RemoteImage} from '../components/RemoteImage';
 import {Spacer} from '../components/Spacer';
@@ -20,9 +20,17 @@ export const MainScreen: React.FC = () => {
 
   const dispatch = useDispatch<TypeDogDispatch>();
 
-  const onPressLike = useCallback(() => {}, []);
+  const onPressLike = useCallback(() => {
+    if (dog === null) {
+      return;
+    }
 
-  const onPressNotLike = useCallback(() => {}, []);
+    dispatch(likeDog(dog));
+  }, [dispatch, dog]);
+
+  const onPressNotLike = useCallback(() => {
+    dispatch(getDog());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getDog());
