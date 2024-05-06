@@ -4,7 +4,10 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
-import {RootStackNavigation} from './src/navigation/RootStackNavigation';
+import {
+  RootStackNavigation,
+  TypeRootStackNavigationParams,
+} from './src/navigation/RootStackNavigation';
 import {Provider} from 'react-redux';
 import store from './src/store';
 
@@ -18,7 +21,22 @@ const App = () => {
     <SafeAreaProvider>
       <Provider store={store}>
         <GestureHandlerRootView style={{flex: 1}}>
-          <NavigationContainer>
+          <NavigationContainer<TypeRootStackNavigationParams>
+            linking={{
+              prefixes: ['mydog://'],
+              config: {
+                screens: {
+                  HistoryList: '/history',
+                  Main: {
+                    path: '/',
+                    screens: {
+                      Main: '/main',
+                      My: '/my',
+                    },
+                  },
+                },
+              },
+            }}>
             <RootStackNavigation />
           </NavigationContainer>
         </GestureHandlerRootView>
