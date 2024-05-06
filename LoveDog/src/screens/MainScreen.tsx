@@ -1,6 +1,14 @@
 import React, {useCallback, useEffect} from 'react';
 import {Alert, View, useWindowDimensions} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import {Gesture, GestureDetector} from 'react-native-gesture-handler';
+import Animated, {
+  interpolate,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
+import {Purchase, finishTransaction, useIAP} from 'react-native-iap';
 
 import {Header} from '../components/Header/Header';
 import {TypeRootReducer} from '../store';
@@ -11,13 +19,7 @@ import {Spacer} from '../components/Spacer';
 import {Button} from '../components/Button';
 import {Icon} from '../components/Icons';
 import {Typography} from '../components/Typography';
-import {Gesture, GestureDetector} from 'react-native-gesture-handler';
-import Animated, {
-  interpolate,
-  runOnJS,
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
+import {userPurchaseItem} from '../actions/user';
 
 export const MainScreen: React.FC = () => {
   const {width} = useWindowDimensions();
@@ -26,8 +28,41 @@ export const MainScreen: React.FC = () => {
   );
 
   const dispatch = useDispatch<TypeDogDispatch>();
+  const {requestPurchase, getProducts, getAvailablePurchases, currentPurchase} =
+    useIAP();
 
-  const onPressPurchaseItem = useCallback(() => {}, []);
+  const onPressPurchaseItem = useCallback(async () => {
+    await getAvailablePurchases();
+
+    await getProducts({
+      skus: ['com.lovedog.product.10'],
+    });
+
+    try {
+      await requestPurchase({skus: ['com.lovedog.product.10']});
+    } catch (ex) {
+      console.error(ex);
+    }
+  }, [getAvailablePurchases, getProducts, requestPurchase]);
+
+  const userPurchasedItem = useCallback(
+    async (purchase: Purchase) => {
+      try {
+        await dispatch(userPurchaseItem());
+        finishTransaction({
+          purchase: purchase,
+          isConsumable: true,
+        });
+      } catch (ex) {}
+    },
+    [dispatch],
+  );
+
+  useEffect(() => {
+    if (currentPurchase) {
+      userPurchasedItem(currentPurchase);
+    }
+  }, [currentPurchase, userPurchasedItem]);
 
   const onPressLike = useCallback(async () => {
     if (dog === null) {

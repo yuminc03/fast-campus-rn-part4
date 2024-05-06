@@ -44,6 +44,19 @@ export const userReducer = (
     };
   }
 
+  if (action.type === 'PURCHASE_ITEM_SUCCESS') {
+    return {
+      ...state,
+      user:
+        state.user !== null
+          ? {
+              ...state.user,
+              availableLikeCount: state.user.availableLikeCount + 5,
+            }
+          : null,
+    };
+  }
+
   return {
     ...state,
   };
