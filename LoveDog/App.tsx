@@ -2,6 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import {RootStackNavigation} from './src/navigation/RootStackNavigation';
 import {Provider} from 'react-redux';
@@ -16,9 +17,11 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <Provider store={store}>
-        <NavigationContainer>
-          <RootStackNavigation />
-        </NavigationContainer>
+        <GestureHandlerRootView style={{flex: 1}}>
+          <NavigationContainer>
+            <RootStackNavigation />
+          </NavigationContainer>
+        </GestureHandlerRootView>
       </Provider>
     </SafeAreaProvider>
   );
