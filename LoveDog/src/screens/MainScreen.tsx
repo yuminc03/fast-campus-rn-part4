@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
-import {View, useWindowDimensions} from 'react-native';
+import {Alert, View, useWindowDimensions} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {Header} from '../components/Header/Header';
@@ -27,14 +27,34 @@ export const MainScreen: React.FC = () => {
 
   const dispatch = useDispatch<TypeDogDispatch>();
 
-  const onPressLike = useCallback(() => {
+  const onPressPurchaseItem = useCallback(() => {}, []);
+
+  const onPressLike = useCallback(async () => {
     if (dog === null) {
       return;
     }
 
-    dispatch(likeDog(dog));
-    dispatch(getDog());
-  }, [dispatch, dog]);
+    try {
+      await dispatch(likeDog(dog));
+      dispatch(getDog());
+    } catch (ex) {
+      console.error(ex);
+      const error = ex as Error;
+      if (error.message === 'Like Today Count is Over.') {
+        Alert.alert(
+          '구매가 필요합니다',
+          '더 많은 강아지 사진을 좋아요 하려면 구매를 해주세요',
+          [
+            {
+              text: '구매하기',
+              onPress: onPressPurchaseItem,
+            },
+            {text: '다음에'},
+          ],
+        );
+      }
+    }
+  }, [dispatch, dog, onPressPurchaseItem]);
 
   const onPressNotLike = useCallback(() => {
     dispatch(getDog());

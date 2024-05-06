@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {withIAPContext} from 'react-native-iap';
 
 import {
   RootStackNavigation,
@@ -45,4 +46,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default withIAPContext(App);

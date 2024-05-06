@@ -62,7 +62,9 @@ export const InputNameScreen: React.FC = () => {
       profile: photoUrl,
       regeditAt: currentTime.toISOString(),
       lastLoginAt: currentTime.toISOString(),
+      availableLikeCount: 5,
     });
+
     const userInfo = await reference
       .once('value')
       .then(snapshot => snapshot.val());
@@ -72,6 +74,7 @@ export const InputNameScreen: React.FC = () => {
         userEmail: userInfo.email,
         userName: userInfo.name,
         profileImage: userInfo.profile,
+        availableLikeCount: 5,
       }),
     );
     rootNavigation.reset({

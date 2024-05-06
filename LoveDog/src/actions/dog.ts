@@ -76,6 +76,11 @@ export const likeDog =
       return;
     }
 
+    if (user.availableLikeCount <= 0) {
+      dispatch(likeDogFailure());
+      throw Error('Like Today Count is Over.');
+    }
+
     try {
       const now = new Date().getTime();
       const ref = `history/${user.uid}}`;
@@ -84,6 +89,13 @@ export const likeDog =
         url: dog.photoUrl,
         regeditAt: now,
       });
+
+      const memberRef = `member/${user.uid}`;
+      await database()
+        .ref(memberRef)
+        .update({
+          availableLikeCount: user.availableLikeCount - 1,
+        });
 
       dispatch(likeDogSuccess());
     } catch (error) {
