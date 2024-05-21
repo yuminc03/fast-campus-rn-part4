@@ -77,6 +77,8 @@ export const useAccountBookHistoryItem = () => {
     }, [openDB]),
     updateItem: useCallback<
       (item: AccountBookHistory) => Promise<AccountBookHistory>
-    >(item => {}, []),
+    >(item => {
+      
+    }, []),
   };
 };
