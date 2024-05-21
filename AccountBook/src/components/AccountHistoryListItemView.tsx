@@ -7,6 +7,7 @@ import {Icon} from './Icons';
 import {Typography} from './Typography';
 import {Spacer} from './Spacer';
 import {RemoteImage} from './RemoteImage';
+import {convertToDateString} from '../utils/DetailUtils';
 
 export const AccountHistoryListItemView: React.FC<{
   item: AccountBookHistory;
@@ -30,7 +31,9 @@ export const AccountHistoryListItemView: React.FC<{
         <View style={{flex: 1, marginLeft: 12}}>
           <Typography fontSize={16}>{props.item.comment}</Typography>
           <Spacer space={4} />
-          <Typography>{props.item.createdAt.toString()}</Typography>
+          <Typography fontSize={12}>
+            {convertToDateString(props.item.createdAt)}
+          </Typography>
         </View>
         {props.item.photoUrl !== null && (
           <>
