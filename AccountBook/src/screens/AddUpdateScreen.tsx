@@ -12,6 +12,7 @@ import {Icon} from '../components/Icons';
 import {convertToDateString} from '../utils/DetailUtils';
 import {MultiLineInput} from '../components/MultiLineInput';
 import {useAccountBookHistoryItem} from '../hooks/useAccountBookHistoryItem';
+import {RemoteImage} from '../components/RemoteImage';
 
 export const AddUpdateScreen: React.FC = () => {
   const navigation = useRootNavigation();
@@ -61,7 +62,16 @@ export const AddUpdateScreen: React.FC = () => {
     }));
   }, []);
 
-  const onPressPhoto = useCallback(() => {}, []);
+  const onPressPhoto = useCallback(() => {
+    navigation.push('TakePhoto', {
+      onTakePhoto: url => {
+        setItem(prevState => ({
+          ...prevState,
+          photoUrl: url,
+        }));
+      },
+    });
+  }, [navigation]);
 
   const onPressCalandar = useCallback(() => {
     navigation.push('CalendarSelect', {
@@ -171,17 +181,26 @@ export const AddUpdateScreen: React.FC = () => {
 
           <View style={{marginLeft: 24}}>
             <Button onPress={onPressPhoto}>
-              <View
-                style={{
-                  width: 100,
-                  height: 100,
-                  borderRadius: 12,
-                  backgroundColor: 'lightgray',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Icon name="add" size={24} color="gray" />
-              </View>
+              {item.photoUrl ? (
+                <RemoteImage
+                  url={item.photoUrl}
+                  width={100}
+                  height={100}
+                  style={{borderRadius: 12}}
+                />
+              ) : (
+                <View
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: 12,
+                    backgroundColor: 'lightgray',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Icon name="add" size={24} color="gray" />
+                </View>
+              )}
             </Button>
           </View>
         </View>
