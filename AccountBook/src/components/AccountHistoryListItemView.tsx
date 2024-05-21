@@ -13,7 +13,7 @@ export const AccountHistoryListItemView: React.FC<{
   onPressItem: (item: AccountBookHistory) => void;
 }> = props => {
   return (
-    <Button onPress={() => props.onPressItem}>
+    <Button onPress={() => props.onPressItem(props.item)}>
       <View
         style={{
           paddingVertical: 12,
