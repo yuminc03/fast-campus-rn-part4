@@ -3,19 +3,19 @@ import {
   NativeStackNavigationProp,
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 
 import {MainScreen} from '../screens/MainScreen';
 import {AddUpdateScreen} from '../screens/AddUpdateScreen';
 import {DetailScreen} from '../screens/DetailScreen';
 import {MonthlyScreen} from '../screens/MonthlyScreen';
 import {AccountBookHistory} from '../data/AccountBookHistory';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 
 type ScreenParams = {
   Add: undefined;
   Main: undefined;
   Update: {item: AccountBookHistory};
-  Deteail: {item: AccountBookHistory};
+  Detail: {item: AccountBookHistory};
   MonthlyAverage: undefined;
 };
 
@@ -28,7 +28,7 @@ export const RootNavigation = () => {
       <Stack.Screen name="Main" component={MainScreen} />
       <Stack.Screen name="Add" component={AddUpdateScreen} />
       <Stack.Screen name="Update" component={AddUpdateScreen} />
-      <Stack.Screen name="MonthlyAverage>" component={MonthlyScreen} />
+      <Stack.Screen name="MonthlyAverage" component={MonthlyScreen} />
       <Stack.Screen name="Detail" component={DetailScreen} />
     </Stack.Navigator>
   );

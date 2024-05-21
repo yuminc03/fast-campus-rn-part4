@@ -1,12 +1,15 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {FlatList, View} from 'react-native';
 
 import {Header} from '../components/Header/Header';
 import {AccountBookHistory} from '../data/AccountBookHistory';
+import {AccountHistoryListItemView} from '../components/AccountHistoryListItemView';
+import {useRootNavigation} from '../navigations/RootNavigation';
 
 const now = new Date().getTime();
 
 export const MainScreen: React.FC = () => {
+  const navigation = useRootNavigation();
   const [list] = useState<AccountBookHistory[]>([
     {
       id: 0,
@@ -34,6 +37,20 @@ export const MainScreen: React.FC = () => {
       <Header>
         <Header.Title title="Main SCREEN" />
       </Header>
+
+      <FlatList
+        data={list}
+        renderItem={({item}) => {
+          return (
+            <AccountHistoryListItemView
+              item={item}
+              onPressItem={clicked => {
+                navigation.push('Detail', {item: clicked});
+              }}
+            />
+          );
+        }}
+      />
     </View>
   );
 };
