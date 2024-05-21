@@ -28,7 +28,7 @@ export const SingleLineInput: React.FC<{
         keyboardType={props.keyboardType}
         onChangeText={props.onChangeText}
         placeholder={props.placeholder}
-        style={{fontSize: props.fontSize ?? 20}}
+        style={{fontSize: props.fontSize ?? 20, paddingVertical: 0}}
         onFocus={() => {
           setFocused(true);
         }}

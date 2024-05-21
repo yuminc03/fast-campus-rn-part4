@@ -8,6 +8,8 @@ import {AccountBookHistory} from '../data/AccountBookHistory';
 import {Typography} from '../components/Typography';
 import {Spacer} from '../components/Spacer';
 import {SingleLineInput} from '../components/SingleLineInput';
+import {Icon} from '../components/Icons';
+import {convertToDateString} from '../utils/DetailUtils';
 
 export const AddUpdateScreen: React.FC = () => {
   const navigation = useRootNavigation();
@@ -47,6 +49,10 @@ export const AddUpdateScreen: React.FC = () => {
       price: parseInt(text),
     }));
   }, []);
+
+  const onPressPhoto = useCallback(() => {}, []);
+
+  const onPressCalandar = useCallback(() => {}, []);
 
   return (
     <View style={{flex: 1}}>
@@ -112,7 +118,45 @@ export const AddUpdateScreen: React.FC = () => {
               placeholder="금액을 입력해주세요"
               onChangeText={onChangePrice}
               keyboardType="number-pad"
+              fontSize={16}
             />
+
+            <Spacer space={24} />
+
+            <Button onPress={onPressCalandar}>
+              <View
+                style={{
+                  borderColor: item.date === 0 ? 'lightgray' : 'gray',
+                  borderWidth: 1,
+                  paddingVertical: 8,
+                  paddingHorizontal: 12,
+                  borderRadius: 4,
+                }}>
+                <Typography
+                  fontSize={16}
+                  color={item.date === 0 ? 'lightgray' : 'gray'}>
+                  {item.date !== 0
+                    ? convertToDateString(item.date)
+                    : '날짜를 선택하세요'}
+                </Typography>
+              </View>
+            </Button>
+          </View>
+
+          <View style={{marginLeft: 24}}>
+            <Button onPress={onPressPhoto}>
+              <View
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 12,
+                  backgroundColor: 'lightgray',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Icon name="add" size={24} color="gray" />
+              </View>
+            </Button>
           </View>
         </View>
       </ScrollView>
