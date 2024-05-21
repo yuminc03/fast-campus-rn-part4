@@ -10,6 +10,7 @@ import {Spacer} from '../components/Spacer';
 import {SingleLineInput} from '../components/SingleLineInput';
 import {Icon} from '../components/Icons';
 import {convertToDateString} from '../utils/DetailUtils';
+import {MultiLineInput} from '../components/MultiLineInput';
 
 export const AddUpdateScreen: React.FC = () => {
   const navigation = useRootNavigation();
@@ -50,9 +51,18 @@ export const AddUpdateScreen: React.FC = () => {
     }));
   }, []);
 
+  const onChangeComment = useCallback<(text: string) => void>(text => {
+    setItem(prevState => ({
+      ...prevState,
+      comment: text,
+    }));
+  }, []);
+
   const onPressPhoto = useCallback(() => {}, []);
 
   const onPressCalandar = useCallback(() => {}, []);
+
+  const onPressSave = useCallback(() => {}, []);
 
   return (
     <View style={{flex: 1}}>
@@ -79,7 +89,7 @@ export const AddUpdateScreen: React.FC = () => {
                   borderBottomLeftRadius: 12,
                 }}>
                 <Typography
-                  fontSize={20}
+                  fontSize={16}
                   color={item.type === '사용' ? 'white' : 'black'}>
                   사용
                 </Typography>
@@ -101,7 +111,7 @@ export const AddUpdateScreen: React.FC = () => {
                   borderBottomRightRadius: 12,
                 }}>
                 <Typography
-                  fontSize={20}
+                  fontSize={16}
                   color={item.type === '수입' ? 'white' : 'black'}>
                   수입
                 </Typography>
@@ -126,7 +136,7 @@ export const AddUpdateScreen: React.FC = () => {
             <Button onPress={onPressCalandar}>
               <View
                 style={{
-                  borderColor: item.date === 0 ? 'lightgray' : 'gray',
+                  borderColor: 'gray',
                   borderWidth: 1,
                   paddingVertical: 8,
                   paddingHorizontal: 12,
@@ -159,6 +169,32 @@ export const AddUpdateScreen: React.FC = () => {
             </Button>
           </View>
         </View>
+
+        <Spacer space={12} />
+        <MultiLineInput
+          value={item.comment}
+          height={100}
+          onChangeText={onChangeComment}
+          placeholder="어떤 일인가요?"
+          onSubmitEditing={() => {}}
+        />
+
+        <Spacer space={64} />
+
+        <Button onPress={onPressSave}>
+          <View
+            style={{
+              paddingVertical: 12,
+              backgroundColor: 'black',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 9,
+            }}>
+            <Typography color="white" fontSize={16}>
+              {routes.name === 'Add' ? '저장하기' : '수정하기'}
+            </Typography>
+          </View>
+        </Button>
       </ScrollView>
     </View>
   );
