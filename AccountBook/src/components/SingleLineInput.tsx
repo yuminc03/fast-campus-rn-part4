@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {TextInput, View} from 'react-native';
+import {TextInput, TextInputProps, View} from 'react-native';
 
 export const SingleLineInput: React.FC<{
   value: string;
   onChangeText: (text: string) => void;
   placeholder: string;
   onSubmitEditing?: () => void;
+  keyboardType?: TextInputProps['keyboardType'];
   fontSize?: number;
 }> = props => {
   const [, setFocused] = useState(false);
@@ -24,6 +25,7 @@ export const SingleLineInput: React.FC<{
         autoCorrect={false}
         autoCapitalize={'none'}
         value={props.value}
+        keyboardType={props.keyboardType}
         onChangeText={props.onChangeText}
         placeholder={props.placeholder}
         style={{fontSize: props.fontSize ?? 20}}
