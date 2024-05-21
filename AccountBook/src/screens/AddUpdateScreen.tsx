@@ -11,10 +11,13 @@ import {SingleLineInput} from '../components/SingleLineInput';
 import {Icon} from '../components/Icons';
 import {convertToDateString} from '../utils/DetailUtils';
 import {MultiLineInput} from '../components/MultiLineInput';
+import {useAccountBookHistoryItem} from '../hooks/useAccountBookHistoryItem';
 
 export const AddUpdateScreen: React.FC = () => {
   const navigation = useRootNavigation();
   const routes = useRootRoute<'Add' | 'Update'>();
+
+  const {insertItem} = useAccountBookHistoryItem();
 
   const [item, setItem] = useState<AccountBookHistory>(
     routes.params?.item ?? {
@@ -60,9 +63,22 @@ export const AddUpdateScreen: React.FC = () => {
 
   const onPressPhoto = useCallback(() => {}, []);
 
-  const onPressCalandar = useCallback(() => {}, []);
+  const onPressCalandar = useCallback(() => {
+    navigation.push('CalendarSelect', {
+      onSelectDay: date => {
+        setItem(prevState => ({
+          ...prevState,
+          date: date,
+        }));
+      },
+    });
+  }, [navigation]);
 
-  const onPressSave = useCallback(() => {}, []);
+  const onPressSave = useCallback(() => {
+    if (routes.name === 'Add') {
+      insertItem(item).then(() => navigation.goBack());
+    }
+  }, [insertItem, item, navigation, routes.name]);
 
   return (
     <View style={{flex: 1}}>

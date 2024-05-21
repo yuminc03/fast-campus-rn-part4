@@ -12,5 +12,5 @@ export const convertToDateString = (time: number) => {
     date.getMonth() + 1,
   )}-${addZeroIfOneCharacter(date.getDate())} ${addZeroIfOneCharacter(
     date.getHours(),
-  )}:${date.getMinutes()}`;
+  )}:${addZeroIfOneCharacter(date.getMinutes())}`;
 };

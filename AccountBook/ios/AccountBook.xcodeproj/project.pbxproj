@@ -27,7 +27,7 @@
 		05C026D32BFC2BC80086E0D1 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05C026BF2BFC2BC80086E0D1 /* Octicons.ttf */; };
 		05C026D42BFC2BC80086E0D1 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05C026C02BFC2BC80086E0D1 /* SimpleLineIcons.ttf */; };
 		05C026D52BFC2BC80086E0D1 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05C026C12BFC2BC80086E0D1 /* Zocial.ttf */; };
-		05C026D72BFC5CA30086E0D1 /* account_history.db in Resources */ = {isa = PBXBuildFile; fileRef = 05C026D62BFC5CA30086E0D1 /* account_history.db */; };
+		05C026D92BFC7B8E0086E0D1 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 05C026D82BFC7B8E0086E0D1 /* www */; };
 		0C80B921A6F3F58F76C31292 /* libPods-AccountBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-AccountBook.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -70,7 +70,7 @@
 		05C026BF2BFC2BC80086E0D1 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		05C026C02BFC2BC80086E0D1 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		05C026C12BFC2BC80086E0D1 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
-		05C026D62BFC5CA30086E0D1 /* account_history.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = account_history.db; path = www/account_history.db; sourceTree = "<group>"; };
+		05C026D82BFC7B8E0086E0D1 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* AccountBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AccountBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = AccountBook/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = AccountBook/AppDelegate.mm; sourceTree = "<group>"; };
@@ -156,7 +156,7 @@
 		13B07FAE1A68108700A75B9A /* AccountBook */ = {
 			isa = PBXGroup;
 			children = (
-				05C026D62BFC5CA30086E0D1 /* account_history.db */,
+				05C026D82BFC7B8E0086E0D1 /* www */,
 				05C026C22BFC2BC80086E0D1 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -315,6 +315,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05C026D92BFC7B8E0086E0D1 /* www in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				05C026CF2BFC2BC80086E0D1 /* Foundation.ttf in Resources */,
 				05C026C62BFC2BC80086E0D1 /* Feather.ttf in Resources */,
@@ -335,7 +336,6 @@
 				05C026CA2BFC2BC80086E0D1 /* FontAwesome5_Solid.ttf in Resources */,
 				05C026CE2BFC2BC80086E0D1 /* Fontisto.ttf in Resources */,
 				05C026CB2BFC2BC80086E0D1 /* FontAwesome6_Brands.ttf in Resources */,
-				05C026D72BFC5CA30086E0D1 /* account_history.db in Resources */,
 				05C026D12BFC2BC80086E0D1 /* MaterialCommunityIcons.ttf in Resources */,
 				294648AF6EAA344EE8FB6A3A /* PrivacyInfo.xcprivacy in Resources */,
 			);
@@ -679,7 +679,10 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -751,7 +754,10 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
