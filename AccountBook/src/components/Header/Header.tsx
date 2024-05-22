@@ -15,7 +15,7 @@ type CompoundComposition = {
 };
 // const { width } = Dimensions.get('window');
 export const Header: React.FC<{
-  children: ReactElement[];
+  children: ReactElement | ReactElement[];
 }> &
   CompoundComposition = props => {
   const insets = useSafeAreaInsets();
