@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {ScrollView, View} from 'react-native';
 
 import {Header} from '../components/Header/Header';
@@ -6,15 +6,24 @@ import {useRootNavigation, useRootRoute} from '../navigations/RootNavigation';
 import {Typography} from '../components/Typography';
 import {Spacer} from '../components/Spacer';
 import {convertToDateString} from '../utils/DetailUtils';
-import {Icon} from '../components/Icons';
 import {RemoteImage} from '../components/RemoteImage';
 import {Button} from '../components/Button';
+import {AccountBookHistory} from '../data/AccountBookHistory';
 
 export const DetailScreen: React.FC = () => {
   const navigation = useRootNavigation<'Detail'>();
   const routes = useRootRoute<'Detail'>();
+  const [item, setItem] = useState<AccountBookHistory>(routes.params.item);
 
-  const {item} = routes.params;
+  const onPressUpdate = useCallback(() => {
+    navigation.push('Update', {
+      item: routes.params.item,
+      onChangeData: nextItem => {
+        setItem(nextItem);
+        console.log('nextItem', nextItem);
+      },
+    });
+  }, [navigation, routes.params.item]);
 
   return (
     <View style={{flex: 1}}>
@@ -115,9 +124,8 @@ export const DetailScreen: React.FC = () => {
                   backgroundColor: 'lightgray',
                   alignItems: 'center',
                   justifyContent: 'center',
-                }}>
-                <Icon name="add" size={24} color="gray" />
-              </View>
+                }}
+              />
             )}
           </View>
         </View>
@@ -138,7 +146,7 @@ export const DetailScreen: React.FC = () => {
 
         <Spacer space={64} />
 
-        <Button onPress={onPressSave}>
+        <Button onPress={onPressUpdate}>
           <View
             style={{
               paddingVertical: 12,

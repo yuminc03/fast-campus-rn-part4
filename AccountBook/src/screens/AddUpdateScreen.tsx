@@ -15,10 +15,10 @@ import {useAccountBookHistoryItem} from '../hooks/useAccountBookHistoryItem';
 import {RemoteImage} from '../components/RemoteImage';
 
 export const AddUpdateScreen: React.FC = () => {
-  const navigation = useRootNavigation();
+  const navigation = useRootNavigation<'Add' | 'Update'>();
   const routes = useRootRoute<'Add' | 'Update'>();
 
-  const {insertItem} = useAccountBookHistoryItem();
+  const {insertItem, updateItem} = useAccountBookHistoryItem();
 
   const [item, setItem] = useState<AccountBookHistory>(
     routes.params?.item ?? {
@@ -88,7 +88,14 @@ export const AddUpdateScreen: React.FC = () => {
     if (routes.name === 'Add') {
       insertItem(item).then(() => navigation.goBack());
     }
-  }, [insertItem, item, navigation, routes.name]);
+
+    if (routes.name === 'Update') {
+      updateItem(item).then(() => {
+        routes.params?.onChangeData(item);
+        navigation.goBack();
+      });
+    }
+  }, [insertItem, item, navigation, routes.name, routes.params, updateItem]);
 
   return (
     <View style={{flex: 1}}>

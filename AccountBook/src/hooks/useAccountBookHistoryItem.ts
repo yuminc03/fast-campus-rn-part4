@@ -31,7 +31,8 @@ export const useAccountBookHistoryItem = () => {
         const now = new Date().getTime();
 
         const result = await db.executeSql(
-          `INSERT INTO account_history (type, price, comment, date, photo_url, created_at, updated_at) 
+          `
+            INSERT INTO account_history (type, price, comment, date, photo_url, created_at, updated_at)
             VALUES (
               "${item.type}",
               ${item.price},
@@ -77,8 +78,33 @@ export const useAccountBookHistoryItem = () => {
     }, [openDB]),
     updateItem: useCallback<
       (item: AccountBookHistory) => Promise<AccountBookHistory>
-    >(item => {
-      
-    }, []),
+    >(
+      async item => {
+        if (typeof item.id === 'undefined') {
+          throw Error('unExpected id value');
+        }
+
+        const db = await openDB();
+        const now = new Date().getDate();
+        const result = await db.executeSql(
+          `
+          UPDATE account_history
+          SET price=${item.price},
+              comment="${item.comment},
+              date=${item.date},
+              photo_url=${item.photoUrl !== null ? `"${item.photoUrl}"` : null},
+              updated_at=${now},
+              date=${item.date}
+          WHERE id=${item.id}
+          `,
+        );
+
+        return {
+          ...item,
+          id: result[0].insertId,
+        };
+      },
+      [openDB],
+    ),
   };
 };
