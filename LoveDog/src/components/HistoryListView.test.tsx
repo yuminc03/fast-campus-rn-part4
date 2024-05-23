@@ -43,7 +43,7 @@ describe('HistoryListView Render Test', () => {
     const onPressItem = jest.fn();
 
     const component = render(
-      //ts-ignore
+      //@ts-ignore
       <Provider store={store}>
         <HistoryListView onPressItem={onPressItem} />
       </Provider>,
