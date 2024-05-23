@@ -30,6 +30,8 @@ target 'LoveDog' do
   use_frameworks! :linkage => :static
   $RNFirebaseAsStaticFramework = true
 
+  pod 'GoogleSignIn'
+
   use_react_native!(
     :path => config[:reactNativePath],
     # Enables Flipper.

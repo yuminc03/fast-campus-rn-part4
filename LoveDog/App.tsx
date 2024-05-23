@@ -4,12 +4,12 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {withIAPContext} from 'react-native-iap';
+import {Provider} from 'react-redux';
 
 import {
   RootStackNavigation,
   TypeRootStackNavigationParams,
 } from './src/navigation/RootStackNavigation';
-import {Provider} from 'react-redux';
 import store from './src/store';
 
 GoogleSignin.configure({

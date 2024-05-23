@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DogPhotoView Render Test 1`] = `
+<Image
+  source={
+    {
+      "uri": "https://images.dog.ceo/breeds/setter-gordon/n02101006_6069.jpg",
+    }
+  }
+  style={
+    [
+      undefined,
+      {
+        "height": 525,
+        "width": 525,
+      },
+    ]
+  }
+  testID="image"
+/>
+`;

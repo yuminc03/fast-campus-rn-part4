@@ -5,3 +5,5 @@ export const createAxiosInstance = () => {
     baseURL: 'https://dog.ceo/api/',
   });
 };
+
+export const api = createAxiosInstance();
