@@ -5,7 +5,7 @@ import {ListItemView} from './ListItemView';
 import {useYoutubeData} from './useYoutubeData';
 
 export const ListView: React.FC = () => {
-  const {data, loadData} = useYoutubeData();
+  const {data, loadData, loadMoreData} = useYoutubeData();
 
   useEffect(() => {
     loadData();
@@ -15,6 +15,8 @@ export const ListView: React.FC = () => {
     <FlatList
       data={data}
       renderItem={({item}) => <ListItemView item={item} />}
+      onEndReached={loadMoreData}
+      onEndReachedThreshold={0.1}
     />
   );
 };
