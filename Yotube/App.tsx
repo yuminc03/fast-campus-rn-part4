@@ -3,10 +3,12 @@ import {SafeAreaView} from 'react-native';
 
 import {ListView} from './src/ListView';
 
-export const App = () => {
+const App = () => {
   return (
     <SafeAreaView>
       <ListView />
     </SafeAreaView>
   );
 };
+
+export default App;
